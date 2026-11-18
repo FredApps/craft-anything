@@ -88,6 +88,8 @@ impl<'a> Reader<'a> {
 
 /// Decode one modified UTF-8 code unit. Invalid bytes consume only themselves,
 /// so a damaged sequence cannot hide valid text or borrow missing bytes.
+// Only the frozen DEX/Java parity oracles still use the local decoder.
+#[cfg(test)]
 pub(crate) fn mutf8_unit(bytes: &[u8]) -> (u16, usize) {
     match bytes {
         [a @ 0x00..=0x7f, ..] => (u16::from(*a), 1),
